@@ -125,67 +125,176 @@ Docker Compose is an essential tool for managing multi-container Docker applicat
 The biggest benefit of Docker Compose is Multi-Container Deployment:
 Docker Compose allows you to define and manage multi-container Docker applications. It enables you to deploy multiple containers, such as databases, backend services, and frontend applications, with a single command.
 
-### 1-3 Document docker-compose most important commands. 1-4 Document your docker-compose file.
+### 1-3 Document docker-compose most important commands.
 
-1-3 Document Docker Compose Most Important Commands
 Docker Compose provides a set of commands that help you manage multi-container applications. Here are some of the most important Docker Compose commands:
 
+```bash
 docker-compose up
-
-Usage: docker-compose up [options]
-Description: Builds, (re)creates, starts, and attaches to containers for a service.
+```
+Builds, (re)creates, starts, and attaches to containers for a service.
 Options:
 -d or --detach: Run containers in the background.
 --build: Rebuild images before starting containers.
 --scale SERVICE=NUM: Scale SERVICE to NUM instances.
-docker-compose down
 
-Usage: docker-compose down [options]
-Description: Stops and removes containers, networks, volumes, and images created by docker-compose up.
+```bash
+docker-compose down
+```
+
+Stops and removes containers, networks, volumes, and images created by docker-compose up.
 Options:
 --volumes: Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers.
-docker-compose build
 
-Usage: docker-compose build [options] [SERVICE...]
-Description: Builds or rebuilds services.
+```bash
+docker-compose build
+```
+Builds or rebuilds services.
 Options:
 --no-cache: Do not use cache when building the image.
 --pull: Always attempt to pull a newer version of the image.
+
+```bash
 docker-compose start
+```
 
-Usage: docker-compose start [SERVICE...]
-Description: Starts existing containers for a service.
+Starts existing containers for a service.
+
+```bash
 docker-compose stop
+```
 
-Usage: docker-compose stop [SERVICE...]
-Description: Stops running containers without removing them.
+Stops running containers without removing them.
+
+
+```bash
 docker-compose restart
+```
 
-Usage: docker-compose restart [SERVICE...]
-Description: Restarts running containers.
+Restarts running containers.
+
+```bash
 docker-compose ps
+```
 
-Usage: docker-compose ps [options] [SERVICE...]
-Description: Lists containers.
+Lists containers.
 Options:
 -q, --quiet: Only display IDs.
-docker-compose logs
 
-Usage: docker-compose logs [options] [SERVICE...]
-Description: Views output from containers.
+```bash
+docker-compose logs
+```
+
+Views output from containers.
 Options:
 -f, --follow: Follow log output.
-docker-compose exec
 
-Usage: docker-compose exec [options] SERVICE COMMAND [ARGS...]
-Description: Runs a command in a running service container.
+```bash
+docker-compose exec
+```
+
+Runs a command in a running service container.
 Options:
 -T, --no-TTY: Disable pseudo-TTY allocation. By default, docker-compose exec allocates a TTY.
-docker-compose run
 
-Usage: docker-compose run [options] SERVICE COMMAND [ARGS...]
-Description: Runs a one-time command against a service.
+```bash
+docker-compose run
+```
+
+Runs a one-time command against a service.
 Options:
 -d, --detach: Run container in the background.
 --rm: Remove container after run.
 
+### Document your docker-compose file.
+
+```bash
+services:
+  API:
+    container_name: API
+    image: simple-api-student:latest
+    environment:
+      DB_host: my-postgres-container
+      DB_port: 5432
+      DB_name: db
+      DB_user: usr
+      DB_mdp: pwd
+    networks:
+      - app-network
+    depends_on:
+      - database
+```
+
+container_name: Sets a custom name for the container running this service.
+image: Specifies the Docker image to use for this service (simple-api-student:latest).
+environment: Defines environment variables that the service will use:
+DB_host: Hostname of the database service.
+DB_port: Port number for the database service.
+DB_name: Name of the database.
+DB_user: Username for the database.
+DB_mdp: Password for the database.
+networks: Connects the service to the specified network (app-network).
+depends_on: Ensures that this service starts only after the database service is running.
+
+```bash
+  database:
+    container_name: my-postgres-container
+    image: my-postgres-db:latest
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pwd
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+```
+
+container_name: Sets a custom name for the container running this service.
+image: Specifies the Docker image to use for this service (my-postgres-db:latest).
+environment: Defines environment variables for the PostgreSQL database:
+POSTGRES_DB: Name of the PostgreSQL database.
+POSTGRES_USER: Username for PostgreSQL.
+POSTGRES_PASSWORD: Password for PostgreSQL.
+volumes: Mounts a volume to persist data:
+db-data:/var/lib/postgresql/data: Maps the db-data volume to the specified path in the container to ensure data persistence.
+networks: Connects the service to the specified network (app-network).
+
+```bash
+  server:
+    container_name: server
+    image: my-running-app:latest
+    environment:
+      BACKEND_host: API
+      BACKEND_port: "8080"
+    ports:
+      - "8091:80"
+    networks:
+      - app-network
+    depends_on:
+      - API
+```
+
+container_name: Sets a custom name for the container running this service.
+image: Specifies the Docker image to use for this service (my-running-app:latest).
+environment: Defines environment variables for the service:
+BACKEND_host: Hostname of the backend API service.
+BACKEND_port: Port number of the backend API service.
+ports: Maps ports between the host and the container:
+"8091:80": Maps port 8091 on the host to port 80 on the container.
+networks: Connects the service to the specified network (app-network).
+depends_on: Ensures that this service starts only after the API service is running.
+
+```bash
+networks:
+  app-network:
+```
+
+networks: Defines a custom network (app-network) for the services to ensure they can communicate with each other.
+
+```bash
+volumes:
+  db-data:
+```
+
+volumes: Defines a named volume (db-data) to persist data, ensuring that the data in the PostgreSQL database is not lost when the container is stopped or removed.
