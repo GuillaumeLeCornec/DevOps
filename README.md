@@ -121,7 +121,71 @@ For this Practical work, we need it to improve our performaces.
 
 ### Why is docker-compose so important?
 
+Docker Compose is an essential tool for managing multi-container Docker applications because it simplifies several critical aspects of deploying and managing complex environments.
+The biggest benefit of Docker Compose is Multi-Container Deployment:
+Docker Compose allows you to define and manage multi-container Docker applications. It enables you to deploy multiple containers, such as databases, backend services, and frontend applications, with a single command.
+
 ### 1-3 Document docker-compose most important commands. 1-4 Document your docker-compose file.
 
+1-3 Document Docker Compose Most Important Commands
+Docker Compose provides a set of commands that help you manage multi-container applications. Here are some of the most important Docker Compose commands:
 
+docker-compose up
+
+Usage: docker-compose up [options]
+Description: Builds, (re)creates, starts, and attaches to containers for a service.
+Options:
+-d or --detach: Run containers in the background.
+--build: Rebuild images before starting containers.
+--scale SERVICE=NUM: Scale SERVICE to NUM instances.
+docker-compose down
+
+Usage: docker-compose down [options]
+Description: Stops and removes containers, networks, volumes, and images created by docker-compose up.
+Options:
+--volumes: Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers.
+docker-compose build
+
+Usage: docker-compose build [options] [SERVICE...]
+Description: Builds or rebuilds services.
+Options:
+--no-cache: Do not use cache when building the image.
+--pull: Always attempt to pull a newer version of the image.
+docker-compose start
+
+Usage: docker-compose start [SERVICE...]
+Description: Starts existing containers for a service.
+docker-compose stop
+
+Usage: docker-compose stop [SERVICE...]
+Description: Stops running containers without removing them.
+docker-compose restart
+
+Usage: docker-compose restart [SERVICE...]
+Description: Restarts running containers.
+docker-compose ps
+
+Usage: docker-compose ps [options] [SERVICE...]
+Description: Lists containers.
+Options:
+-q, --quiet: Only display IDs.
+docker-compose logs
+
+Usage: docker-compose logs [options] [SERVICE...]
+Description: Views output from containers.
+Options:
+-f, --follow: Follow log output.
+docker-compose exec
+
+Usage: docker-compose exec [options] SERVICE COMMAND [ARGS...]
+Description: Runs a command in a running service container.
+Options:
+-T, --no-TTY: Disable pseudo-TTY allocation. By default, docker-compose exec allocates a TTY.
+docker-compose run
+
+Usage: docker-compose run [options] SERVICE COMMAND [ARGS...]
+Description: Runs a one-time command against a service.
+Options:
+-d, --detach: Run container in the background.
+--rm: Remove container after run.
 
