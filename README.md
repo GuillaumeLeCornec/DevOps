@@ -57,3 +57,14 @@ Open your web browser and go to http://localhost:8090 to access Adminer. Use the
 - docker rm -f: Forces removal of the existing PostgreSQL container.
 - docker run --network: Runs the PostgreSQL container within the created network and mounts a volume for persistent data.
 - Adminer: A lightweight database management tool to manage PostgreSQL.
+
+### Why do we need a multistage build? And explain each step of this dockerfile.
+
+A multi-stage build in Docker is used to optimize the process of building a Docker image. It helps create smaller and more secure images by separating the build and runtime stages into different containers. 
+
+Here are the key benefits of using a multi-stage build:
+
+1) Reduced Image Size: Only the necessary artifacts are copied into the final image, significantly reducing the size of the Docker image.
+2) Enhanced Security: By including only the dependencies needed to run the application in the final image, you reduce the potential attack surface.
+3) Isolation of Build Steps: Separating the build and runtime stages ensures that build tools and development dependencies are not present in the production image.
+
