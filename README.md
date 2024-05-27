@@ -68,3 +68,49 @@ Here are the key benefits of using a multi-stage build:
 2) Enhanced Security: By including only the dependencies needed to run the application in the final image, you reduce the potential attack surface.
 3) Isolation of Build Steps: Separating the build and runtime stages ensures that build tools and development dependencies are not present in the production image.
 
+### And explain each step of this dockerfile.
+
+```bash
+FROM maven:3.8.6-amazoncorretto-17 AS myapp-build
+```
+This line sets the base image for the build stage.
+
+```bash
+ENV MYAPP_HOME /opt/myapp
+WORKDIR $MYAPP_HOME
+```
+
+These lines set an environment variable MYAPP_HOME to /opt/myapp and change the working directory to this path.
+
+```bash
+COPY pom.xml .
+COPY src ./src
+```
+These lines copy the pom.xml file and the src directory from the local machine into the Docker image.
+
+```bash
+RUN mvn package -DskipTests
+```
+This line runs the Maven package command to build the application, skipping tests.
+
+```bash
+FROM amazoncorretto:17
+```
+This line sets the base image for the run stage.
+
+```bash
+ENV MYAPP_HOME /opt/myapp
+WORKDIR $MYAPP_HOME
+```
+These lines set the same environment variable MYAPP_HOME and working directory as in the build stage.
+
+```bash
+COPY --from=myapp-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
+```
+This line copies the compiled JAR file from the build stage into the run stage.
+
+```bash
+ENTRYPOINT ["java", "-jar", "myapp.jar"]
+```
+This line sets the entry point for the Docker container.
+
