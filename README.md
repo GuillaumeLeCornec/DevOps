@@ -298,3 +298,10 @@ volumes:
 ```
 
 volumes: Defines a named volume (db-data) to persist data, ensuring that the data in the PostgreSQL database is not lost when the container is stopped or removed.
+
+
+### 1-5 Document your publication commands and published images in dockerhub.
+
+### Why do we put our images into an online repo?
+
+
