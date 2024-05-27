@@ -114,3 +114,8 @@ ENTRYPOINT ["java", "-jar", "myapp.jar"]
 ```
 This line sets the entry point for the Docker container.
 
+### Why do we need a reverse proxy?
+
+A reverse proxy is a server that sits between client devices and a backend server, forwarding client requests to the backend server and returning the server's responses to the clients. It offers several advantages and is often used to enhance the performance, security, and manageability of web applications and services.
+For this Practical work, we need it to improve our performaces.
+
