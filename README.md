@@ -119,3 +119,9 @@ This line sets the entry point for the Docker container.
 A reverse proxy is a server that sits between client devices and a backend server, forwarding client requests to the backend server and returning the server's responses to the clients. It offers several advantages and is often used to enhance the performance, security, and manageability of web applications and services.
 For this Practical work, we need it to improve our performaces.
 
+### Why is docker-compose so important?
+
+### 1-3 Document docker-compose most important commands. 1-4 Document your docker-compose file.
+
+
+
